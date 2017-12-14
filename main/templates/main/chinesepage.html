@@ -10,7 +10,7 @@
 		{% for sentence in chapter.sentence_set.all %}
 		<hr>
 		<div class="row">
-		<span class="text-success">{{forloop.counter}}:</span> {{ sentence.Chinese|linebreaks }}
+		<span class="text-danger">{{sentence.pk}}:</span> {{ sentence.Chinese|linebreaks }}
 		</div>
 		{% endfor %}
 	{% endfor %}	
