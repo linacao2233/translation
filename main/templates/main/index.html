@@ -15,12 +15,14 @@
 
 	{% for chapter in chapters %}
 		<hr>
-		<h2>Chapter {{chapter.order}}</h2>
+		<a href="/admin/main/chapter/{{chapter.pk}}/change">
+		<h2>Chapter {{chapter.order}}</h2></a>
 		{% for sentence in chapter.sentence_set.all %}
 		<hr>
 		<div class="row">
 			<div class="col-md-6">
-				<span class="text-danger">{{sentence.pk}}</span> :
+			<a href="/admin/main/sentence/{{sentence.pk}}/change"><span class="text-danger">{{sentence.pk}}</span> :</a>
+				
 				{{ sentence.Chinese|linebreaks }}
 			</div>
 

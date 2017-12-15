@@ -8,11 +8,12 @@ from .models import Sentence,Chapter
 def index(request):
 	template = 'main/index.html'
 
-	sentences = Sentence.objects.all().order_by('chapter')
-	chapters = Chapter.objects.all().order_by('order')
+	#sentences = Sentence.objects.all().order_by('chapter')
+	chapters = Chapter.objects.filter(article=
+		'second').order_by('order')
 
 	context= {
-	'sentences': sentences,
+	#'sentences': sentences,
 	'chapters': chapters,
 	}
 
@@ -36,8 +37,10 @@ def savesentence(request):
 
 def chinesepage(request):
 	template = 'main/chinesepage.html'
+	chapters = Chapter.objects.filter(article=
+		'second').order_by('order')
 
-	chapters = Chapter.objects.all().order_by('order')
+	# chapters = Chapter.objects.all().order_by('order')
 
 	context= {
 	'chapters': chapters,

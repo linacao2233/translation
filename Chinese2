@@ -1,0 +1,811 @@
+仪
+第 38 卷 第 10 期
+2017 年 10 月
+器
+仪
+表
+学
+报
+Vol. 38 No. 10
+Oct. 2017
+Chinese Journal of Scientific Instrument
+立体视觉和三维激光系统的联合标定方法
+董方新 , 蔡
+*
+军 , 解杨敏
+( 上海大学机电工程与自动化学院 上海市机械自动化及机器人重点实验室
+上海 200072)
+摘 要: 双目立体视觉和三维激光扫描是移动机器人环境探测与建模的常见传感测量方法。为实现两个系统的数据融合应用,
+必须为二者的测量坐标系建立数学关系,即对其进行传感器之间的位姿联合标定。为此提出了一种基于三维特征点距离匹配
+的联合标定新方法,设计了一种镂空棋盘格作为标定板。使用双目立体相机提取棋盘格角点三维坐标信息,使用激光测距雷达
+扫描获取镂空区域中心点三维坐标,最终通过最小化两组特征点的理论与实际测量距离的平方差获取两传感器坐标系之间的
+旋转矩阵和平移向量。进行的联合标定测量实验结果表明了该方法的准确性和可靠性。
+关键词: 双目立体视觉;三维激光扫描;数据融合;联合标定
+中图分类号: TP242 TP391 TH-3
+文献标识码: A
+国家标准学科分类代码: 460. 40
+Joint calibration method for stereo vision system and 3D laser system
+Dong Fangxin,Cai Jun,Xie Yangmin
+( School of Mechatronic Engineering and Automation,Shanghai Key Laboratory of Manufacturing
+Automation and Robotics,Shanghai University,Shanghai 200072,China)
+Abstract:Binocular stereo vision and 3D laser scanning techniques are the common sensor measurement methods in environment
+detection and modeling for mobile robots. In order to realize the data fusion application of the two systems, it is necessary to establish the
+mathematic relationship between the two local measurement coordinate systems,which is the position and pose joint calibration between
+the sensors. This paper proposes a new method for the joint calibration based on the distance matching among 3D feature points. A
+calibration board is designed,which is basically a black-white chess board with hollow holes. The binocular stereo vision cameras are
+used to extract the 3D coordinate information of the corner points of the chess board,and a laser ranging radar is used to scan and
+acquire the 3D coordinates of the centers of the hollow area. Through minimizing the squared difference of the theoretical and measured
+distances of two groups of the feature points,the rotation matrix and translation vector of the two sensor coordinate systems are obtained.
+The joint measurement experiment results show the accuracy and reliability of the proposed method.
+Keywords:binocular stereo vision; 3D laser scanning; data fusion; joint calibration
+[6 ]
+0
+引
+言
+环境感知为移动机器人实现自主导航和智能操作提
+[1-2 ]
+;获取未知环境信息是移动机器人
+供必要的环境信息
+[3 ]
+[4 ]
+[5 ]
+自定位 、 视觉检测 、 路径规划 等技术实现的重要保
+证。环境感知涉及到多传感器数据融合技术,即通过使
+用相机、 激光传感器、 惯性导航仪等传感器进行测量,并
+对多个测量量进行数据融合以获取环境信息。多传感器
+系统的联合标定,即建立不同传感器坐标系的数学联系,
+收稿日期:2017-07
+Received Date: 2017-07
+* 基金项目:国家自然科学基金(61503234) 项目资助
+是实现其测量数据融合的前提 。近年来,相机和激光
+传感器的联合标定成为研究热点。
+为实现联合标定,需要设计标定对象及标定特征,以
+[7 ]
+便建立两个测量系统之间的关系。李琳等人 基于平面
+特征匹配进行联合标定,通过提取在激光雷达和摄像机
+坐标系中靶标平面特征,利用平面特征约束求解两坐标
+系的位姿参数,为了降低噪声进行初值结果优化;项志宇
+[8 ]
+等人 针对在激光雷达距离图像上特征点或者边缘提取
+时精度低的问题,根据传感器原点到标定平面的距离对
+[9 ]
+应性原理,实现联合标定;Zhang Q 等人 提出基于棋盘仪
+2590
+器
+仪
+格标定板的多视图标定方法,根据标定板在相机和激光
+中不同视图建立几何约束,通过最小化几何约束误差求
+解相机和激光传感器的位姿参数初值,最小化重投影误
+[10 ]
+差后对结果进行优化;温景阳等人 根据方差大小为参
+数初值赋予相应的权值,误差大的初值具有较小的权重,
+误差小的初值具有较大的权重,在此基础上求解旋转矩阵
+更加精确的最大似然估计值。上述相关工作多为单目相
+机与 3D 激光系统标定,
+进行视觉特征提取时,
+在同一位置
+下采集图像无法确定目标点的空间位置,需要 3 个以上位
+[11 ]
+置才能计算出目标点三维坐标 ,
+其方法不能直接适用于
+本文所讨论的双目视觉系统;标定的约束分为距离保持约
+[ 12 ]
+共线或共面约束 。双目视觉和 3D 激光扫描系统的
+束、
+距离保持约束可通过标定板上的特征点定义生成。
+针对以上问题,本文提出一种使用镂空棋盘格作为
+标定板的联合标定方法。在标定板上设计镂空圆孔并采
+用其中心点作为 3D 激光测量系统的特征点,可快速并准
+表
+学
+报
+第 38 卷
+O B ,
+X B 轴与俯仰机构旋转轴轴线平行, X B O B Y B 为 2D 激
+光扫描平面。
+2D 激光传感器测量原理如图 2 所示。其中, O B 为
+2D 激光传感器的光心, P 为空间点, α 为发射点 O B 到 P
+点的光束在当前扫描平面内返回的角度值。假设 ρ 为激
+光传感器的返回距离值。则空间点 P 在 2D 激光坐标系
+O B X B Y B Z B 中的对应坐标为:
+x B = ρcosα
+{
+(1)
+y B = ρsinα
+z B = 0
+式中:x B 、 y B 是 2D 激光传感器获取的二维坐标值,因此
+z B = 0。假设 2D 激光传感器坐标系 O B X B Y B Z B 和 3D 激
+光测量系统坐标系 O l X l Y l Z l 之间存在一定的转换关系,
+可用式(2) 表示。
+ X l 
+ x B 
+ Y l  = lB R  y B  + lB T
+ 
+ 
+ Z l 
+ z B 
+确地获得特征点的三维坐标;棋盘格角点可作为视觉系
+统的特征点,利用双目视觉算法确定其三维坐标。建立
+(2)
+两组特征点三维坐标之间的距离关系,即可求解二者测 式中: B R 为二者坐标系之间的旋转矩阵, B T 为平移向
+量系统的旋转矩阵和平移向量。上述方法测量精度较 量,可通过激光传感器系统自标定实验获得。因此,式
+(2) 实现 2D 激光传感器到 3D 激光测量系统的转换。
+高、 计算难度小,提高了标定的效率和准确性。通过立体
+l
+l
+视觉和激光系统实验平台进行联合标定和联合测量实
+验,得出了合理的联合标定参数和测量结果,验证了本文
+方法的正确性和可行性。
+1
+1. 1
+联合测量系统简介
+激光测量系统
+本文采用的激光测量系统结构如图 1 所示。
+图 2
+2
+1. 2
+2D 激光传感器坐标系
+The 2D laser sensor coordinate system
+双目立体视觉系统
+[ 13 ]
+摄像机成像模型可用针孔模型
+图 1
+来表示,
+如图 3 所示。
+激光测量系统模型
+The model of the laser measurement system
+将 2D 激光传感器安装在俯仰运动机构上,构成 3D
+激光测量系统。其扫描平面可以进行俯仰运动,采集环
+境的三维特征信息。图 1 中 O l X l Y l Z l 为 3D 激光测量系
+统坐标系,不受 2D 激光传感器扫描运动状态影响,为固
+定坐标系;O B X B Y B Z B 为 2D 激光传感器坐标系,会随着
+俯仰运动机构变化,为动坐标系,原点位于传感器光心
+图 3
+Fig. 3
+摄像机成像模型
+The camera imaging model第 10 期
+董方新 等:立体视觉和三维激光系统的联合标定方法
+根据针孔成像模型可知,摄像机的数学模型为:
+f x 0 u 0 x / z
+u
+x /z
+ 
+ v  =
+ 1 
+
+ 0
+ 0
+ 
+f y
+0
+
+
+
+v 0   y / z  = M  y / z 
+ 1 
+1   1 
+1. 3
+2591
+联合测量系统
+当相机与激光测距传感器扫描同一场景时,即对空
+(3)
+间中同一点进行测量,可以同时获得该点在双目立体视
+觉系统中和 3D 激光测量系统中的三维坐标。通过建立
+式中:( u 0 ,v 0 ) 为图像主点坐标,( u,v) 为空间点 P ( x,
+y,z) 的像素坐标, f x ,f y 为图像坐标轴的尺度因子,矩阵 两种三维坐标的关系,求得联合测量系统中两种传感器
+M 为三维空间到二维图像平面的相机投影矩阵,该模型 n) 为空 间 中 若 干 点,若 使 用 3D 激 光 测 量 系 统,用 P li
+实现三维空间到二维图像平面的映射。
+在双目立体视觉系统中,选取世界坐标系 O c X c Y c Z c
+与左相机坐标系 O 1 X 1 Y 1 Z 1 重合,本文所述立体视觉系统
+的三维坐标均是在世界坐标系 O c X c Y c Z c 中。两个相机
+几何位置关系如图 4 所示, p 1i 和 p 2i 是空间点 P i 在左右相
+机二维图像平面上的投影点。由这两点的二维像素坐
+标,根据立体相机标定的参数,可由双目立体视觉三角法
+[14-15 ]
+测距原理
+计算出空间点 P i 在立体视觉系统中的三维
+2, ..., n。
+坐标( X ci ,Y ci ,Z ci ) ,其中 i = 1,
+2, ...,
+的旋转矩阵 R 和平移矩阵 T。设 P i 点( 其中 i = 1,
+( i = 1,
+2, ..., n) 表示空间点 P i 在 3D 激光测量系统坐标
+系下的三维坐标,则该点可表示为:P li = ( X li ,Y li ,Z li ) ;
+2, ..., n) 表示空
+若使用双目立体视觉系统,用 P ci ( i = 1,
+间点 P i 在双目立体视觉系统中的三维坐标,则该点可表
+示为 P ci = ( X ci ,Y ci ,Z ci ) 。
+当进行联合测量系 统 数 据 融 合 时,需 要 确 定 两 传
+感器坐标 系 之 间 的 对 应 关 系。 单 传 感 器 下 测 量 同 一
+点 P i 的两种三维坐 标 可 以 确 立 两 者 坐 标 系 的 旋 转 和
+平移变换关系。两传感器坐标系理论关系可用式( 4 )
+表示。
+ X ci 
+ X li 
+ Y  = R  Y  + T
+ ci 
+ li 
+ Z ci 
+ Z li 
+(4)
+式中:R 为 3D 激光测量系统到双目立体视觉系统的旋转
+变换矩阵。
+本文采用右手坐标系系统,由图 1 和 4 可知, 3D 激
+光测量系统坐标系 O l X l Y l Z l 依次绕 x 轴旋转 φ,绕 y 轴
+旋转 θ,绕 z 轴旋转 ψ,即可与双目立体视觉系统中世界
+图 4
+Fig. 4
+R
+坐标系 O c X c Y c Z c 各坐标轴指向相同。描述此旋转关系
+双目立体视觉几何模型
+的旋转矩阵 R 可表示为式(5) 。
+The geometric model of binocular stereo vision
+=
+R z ( ψ) R y ( θ) R x ( φ)
+=
+ cos( ψ)
+ - sin( ψ)
+
+
+0
+sin( ψ)
+0   cos( θ)
+cos( ψ) 0   0
+0
+1   sin( θ)
+ cosψcosθ sinψcosφ + cosψsinθsinφ sinψsinφ - cosψsinθcosφ 
+ - sinψcosθ cosψcosφ - sinψsinθsinφ cosψsinφ + sinψsinθcosφ  =
+
+
+
+
+sinθ
+- cosθsinφ
+cosθcos φ
+ r 11
+ r 21
+
+ r 31
+0
+1
+0
+- sin( θ)   1
+  0
+0
+ 
+cos( θ )   0
+r 12 r 13 
+r 22 
+r 33 
+r 32
+0
+cos( φ)
+0
+
+sin( φ)  =
+- sin( φ)
+r 23 
+cos φ 
+(5)
+2,
+3) 表示旋转角度的对应三角函数值。
+式中:r ij ( i,j = 1,
+T 为 3D 激光测量系统到双目立体视觉系统的平移 值偏离其设计值。将会导致两传感器的三维测量转换关
+系的计算产生很大误差。因此设计联合标定方法对 R 与
+变换向量,可表示为:
+T = [ t x t y t z ] T T 进行校正,最小化双系统的联合测量误差。
+(6)
+2. 1
+联合标定方法设计
+联合标定实验中,需要设计联合测量对象以建立双
+2
+双目摄像机和激光测距雷达联合标定算法
+由于加工及安装误差, R 与 T 在物理系统中的真实
+传感系统空间测量的绝对标准。因此本文设计镂空棋盘
+格作为实验标定板如图 5 所示。仪
+2592
+器
+仪
+表
+学
+报
+第 38 卷
+1) 由式(4) 将激光坐标系下中心点坐标转化为相机
+坐标系下坐标
+X lci = r 11 X li + r 12 Y li + r 13 Z li + t x
+{
+Y lci = r 21 X li + r 22 Y li + r 23 Z li + t y
+(7)
+Z lci = r 31 X li + r 32 Y li + r 33 Z li + t z
+式中:( X lci ,Y lci ,Z lci ) 为圆孔中心点转化在相机坐标系下
+的三维坐标,其中含有定义 R 和 T 的 6 个未知量 φ、 θ、 ψ、
+t x 、 t y 、 t z 。
+2) 建立角点和中心点测量距离与理论距离误差关系
+图 5
+Fig. 5
+双目立体相机和激光传感器示意图
+The schematic diagram of the binocular
+stereo cameras and laser sensor
+标定板表面加工出相机标定实验的棋盘格,能够较
+如图 6 所示,根据角点和中心点的分布,确定每个角
+点与相邻的 3 个中心点的实际测量距离与理论距离之间
+的误差关系,建立对应的误差方程(8) 。
+e 2 = d 2 测 - d 2 理
+(8)
+d 测 为实际测量距离,
+d 理 为理论距离。
+式中:e 为距离误差,
+为精确地产生视觉系统测量的特征点,即棋盘格的角点;
+在标定板的黑色区域镂空圆孔,圆孔与黑色正方形同中
+3D 激光雷达通过扫描镂空区域特征,计算圆孔中心
+心,
+点三维坐标作为激光测量系统的特征点。此方法能够便
+捷和准确地实现两种传感器在一次标定实验中同时完成
+数据采集。将 3D 激光雷达获取的圆孔中心点三维坐标利
+用式(4)转化为相机坐标系下的三维坐标,即可确定联合
+测量系统下角点和中心点的测量距离;与其在标定板上的
+理论距离进行比较可求得联合测量误差,通过非线性优化
+联合测量误差解得两种传感器之间的旋转矩阵 R 和平移
+向量 T,
+实现对视觉系统和激光系统的联合标定。
+2. 2
+联合标定流程
+图 6
+本文的联合标定算法具体步骤如下:
+1) 采用张氏标定 [16 ] 获得立体相机的内外参数,通过
+Fig. 6
+角点和中心点分布
+The distribution diagram of the corner
+points and center points
+采集棋盘格标定板图像,将棋盘格角点作为视觉系统的
+特征点,提取角点的二维像素坐标,按照双目视觉算法还
+原角点在相机坐标系下的三维坐标。
+2)3D 激光传感器系统经过自标定获得自身内外参
+数,通过扫描标定板镂空圆孔区域,获取圆孔中心点在
+3D 激光测量系统坐标系下的三维坐标。将中心点作为
+3D 激光系统的特征点,为了建立两种传感器坐标系之间
+的联系,需要将 3D 激光坐标系下中心点的三维坐标按照
+一定的关系转换到相机坐标系下的三维坐标。
+3) 按照上述步骤,计算相机坐标系下角点和相对应
+中心点的实际测量距离,最终通过最小化特两组征点之
+间的理论与实际测量距离的平方差,从而获取两传感器
+坐标系之间的旋转矩阵和平移向量。
+由联合标定基本式(4) 可知,联合标定所求旋转矩
+阵 R 中未知量为关于旋转角 φ、 θ、ψ 的变量,因此 R 有 3
+个未知参数,平移向量 T 有 3 个未知参数,因此联合标定
+参数有 6 个未知量。具体优化求解过程如下:
+2 对应中心点 a、 b、 d;角点 3、 4 对应中心点
+角点 1、
+b、 c、 e;角点 5、
+6 对应中心点 d、 f、 g;角点 7、
+8 对应中心点
+e、 g、 h。根据标定板实际加工尺寸关系,存在两种理论距
+离值,设定较短距离为 M,较长距离为 N。角点与 3 个中
+心点的误差方程如下,以角点 1 为例。
+e 21 = (x c1 - x lca ) 2 + (y c1 - y lca ) 2 + (z c1 - z lca ) 2 - M 2
+{
+e 22 = (x c1 - x lcb ) 2 + (y c1 - y lcb ) 2 + (z c1 - z lcb ) 2 - N 2
+e 23 = (x c1 - x lcd ) 2 + (y c1 - y lcd ) 2 + (z c1 - z lcd ) 2 - M 2
+(9)
+3) 优化所有角点误差方程之和为最小
+比如选取标定板 8 个角点和 8 个中心点,按照上述
+确定距离关系后共有 24 个误差方程,其中都含有未知量
+φ、 θ、 ψ、 t x 、 t y 、 t z 。为了求出最优的联合标定参数旋转矩阵
+R 和平移向量 T,需要使所有误差平方和最小,即式(10)
+所示非线性优化求解问题。本文采用基于文献[ 17]的
+Direct 全局优化算法,设定优化量的上下界值,迭代求得第 10 期
+董方新 等:立体视觉和三维激光系统的联合标定方法
+参数的全局最优解。
+24
+min
+∑ e
+( φ,
+t x ,
+t y ,
+t z ) i = 1
+θ,
+ψ,
+2
+i
+(10)
+2593
+标;在同一位置下,使用激光测距传感器扫描测出激光扫
+描坐标系下圆孔中心点三维坐标。以第 1 组实验为原始
+数据进行传感器联合标定求解,相同环境下第 2 组实验作
+为联合标定参数验证实验,
+确保联合标定参数的正确性。
+3
+3. 1
+联合标定实验与结果分析
+实验设备与实验环境
+实验采用军达腾飞科技的高精度旋转云台 ( JDXZ-
+100) ,在云台上经过带轮传动安装 HOKUYO 激光传感器
+( UST-10LX) ,实现激光测距传感器的俯仰动作。实验设
+实验结果
+3. 3
+1) 双目立体相机标定
+经过图像采集、 MATLAB 程序标定等步骤,得出双目
+相机的标定结果如表 1 所示,包括相机之间的旋转矩阵
+R c 和平移向量 T c 。
+表 1
+定激光传感器水平扫描范围为 0° ~ 180°,水平扫描采样
+间隔为 0. 25°。扫描面俯仰运动范围为 - 15° ~ 15°,俯仰
+采样 间 隔 0. 15°。相 机 采 用 Basler USB3. 0 工 业 相 机
+( acA2500-60uc) ,分 辨 率 为 2 592 × 2 048,像 素 尺 寸 为
+4. 8 μm × 4. 8 μm。搭载平台是 DrRobot 公司的 4 驱轮形
+机器人( Jaguar 4 × 4 Wheel) ,是一款适用于全地形室内
+Table 1
+双目立体相机标定结果
+The calibration result of the binocular
+stereo cameras
+R c
+ 0. 999 96
+ - 0. 006 60
+ - 0. 005 94
+T c / mm
+0. 006 62
+0. 999 96
+0. 004 39
+0. 005 91
+
+ - 137. 736 11 
+ 0. 895 87 
+ 3. 322 819 
+- 0. 004 43 
+0. 999 97
+
+外的移动机器人。
+图 8
+图 7
+.7
+实验设备安装
+Fig. 8
+双目立体相机标定误差
+The calibration error of the binocular stereo cameras
+The installation diagram of the test equipment
+实验标定板棋盘格尺寸为 120 mm × 120 mm,黑色棋
+盘格中镂空直径 100 mm 的圆孔,加工精度为 0. 1 mm。
+双目立 体 相 机 和 激 光 传 感 器 距 离 棋 盘 格 标 定 板 约 为
+1 900 mm。镂空标定板安装在型号为 NHK90 的滑动导
+实验中,相机分辨率 2 592 × 2 048,在 1 900 mm 处的
+视场约为 1 970 mm × 1 557 mm。双目立体相机标定误差
+如图 8 所 示,总 体 标 准 差 为 0. 08 pixel,像 素 分 辨 率 为
+0. 76 mm / pixel。
+为了评估双目立体相机的测量精度,在相机坐标系
+轨的滑台上以调整与移动机器人的相对距离。如图 7 所
+示,实验过程中保持双目立体相机和 3D 激光测量系统的 下对图 6 标定板相邻角点的距离进行测量,并与理论距
+离比较,误 差 分 析 如 表 2 所 示。测 量 像 素 误 差 最 大 为
+位置固定不动,手动转动滑台摇柄使镂空棋盘标定板位 6. 13 pixel,最小为 0. 13 pixel,在 2 m 工作距离下,对应的
+视觉系统测量误差最大为 4. 66 mm,最小为 0. 1 mm,标
+于不同位置,便于采集多组数据进行实验。
+3. 2
+实验方案设计
+准差 1. 36 mm。
+表 2
+在联合标定实验前需要分别进行双目相机和激光测
+距传感器的自标定,获得两种传感器自身的参数。然后
+进行如图 7 所示联合标定实验。保持双目相机的硬件参
+Table 2
+视觉测量系统误差
+The error of the vision measurement system
+角点 测量 理论 相对 像素
+距离
+D 12 距离 / mm
+118. 72 距离 / mm
+120 误差 / %
+1. 07 误差 / pixel
+1. 68
+D 23 118. 98 120 0. 85 1. 34
+D 34 118. 83 120 0. 97 1. 53
+验在相同环境下进行。测得标定板到传感器系统大致距
+2 100 mm。分别使用双目相机对标定板
+离分别为 1 900、 D 14 355. 34 360 1. 29 6. 13
+D 56 119. 43 120 0. 47 0. 75
+拍摄图像,还原出立体视觉坐标系下棋盘格角点三维坐 D 67 120. 01 120 0. 01 0. 13
+数和布置方式不变,同时确保相机和激光传感器的位置
+相对固定。通过调节导轨依次进行 2 组实验,目的是保
+证传感器间位置、 光线等环境因素保持不变,确保两组实仪
+2594
+器
+仪
+2) 激光测量系统标定
+激光传感器标定的目的是通过标定实验获得 2D 激
+光传感器坐标系到 3D 激光测量系统坐标系的转换关系。
+激光测量系统标定的参数如表 3 所示。
+表 3
+Table 3
+激光测量系统误差
+The error of the laser measurement system
+系统参数
+UST-10LX
+实验测量距离 / m 2
+实验测量误差 / mm 6. 8
+实验标准差 / mm 4. 32
+利用表 4 和 5 中的数据,
+按照联合标定算法中式(7)、
+(9)、
+(10)进行优化求解。获得联合标定参数如下:
+1) 旋转变换参数( 角度单位:rad)
+联合标定获得的转动角度( φ,θ,ψ) = ( - 1. 541 3,
+- 0. 077 6, 0. 000 7) ,代入式(5) 得出旋转矩阵:
+- 0. 050 705 
+ 0. 997 541 0. 048 383
+R =  0. 049 290
+0. 029 999
+0. 998 334 
+T = [ 59. 945 1
+3. 4
+在联合标定实验中,双目立体相机采集 8 个角点的
+二维像素坐标,还原出相机坐标系下的三维坐标如表 4
+所示。3D 激光测量系统扫描获取 8 个中心点在 3D 激光
+测量系统坐标系下的三维坐标如表 5 所示。
+
+- 0. 998 378
+0. 027 541 
+- 54. 865 9] T
+立体相机共采集 8 个角点的二维像素坐标,还原棋盘格
+角点在相机坐标系下的三维坐标;3D 激光测量系统扫描
+获取 8 个圆孔中心点的三维坐标。根据式(7) 将实验 2
+数据进行相应的变换,计算角点和中心点之间测量距离,
+与其理论距离进行对比,结果如表 6 所示。
+角点
+( mm)
+表 6 联合测量误差分析
+The joint measurement error analysis ( mm)
+中心点 测量距离 理论距离 误差绝对值
+a 97. 826 84. 852 12. 974
+b 188. 283 189. 736 1. 453
+序号 ( X c ,Y c ,Z c ) 1 ( - 32. 392, - 396. 344,
+1 895. 668) d 81. 977 84. 852 2. 875
+2 (86. 186, - 400. 810,
+1 899. 352) a 191. 302 189. 736 1. 566
+3 (204. 970, - 402. 696,
+1 892. 656) b 85. 108 84. 852 0. 256
+d 82. 486 84. 852 2. 366
+4 (322. 227, - 401. 302,
+1 873. 430)
+5 ( - 30. 654, - 281. 008,
+1 916. 928)
+6 (88. 741, - 284. 134,
+1 916. 982)
+7 (207. 455, - 284. 538,
+1 899. 406)
+8 (323. 573, - 283. 113,
+1 873. 330)
+表 5
+Table 5
+1
+2
+3
+4
+激光坐标系下中心点三维坐标
+The three-dimensional coordinates of
+5
+the center points in the laser coordinate system ( mm)
+编号 ( X l ,Y l ,Z l )
+a (187. 636,
+1 919. 529,
+766. 067)
+6
+b 86. 664 84. 852 1. 812
+c 193. 179 189. 736 3. 443
+e 92. 706 84. 852 7. 854
+b 189. 667 189. 736 0. 066
+c 90. 622 84. 852 5. 77
+e 84. 797 84. 852 0. 055
+d 86. 16 84. 852 1. 308
+f 88. 867 84. 852 4. 015
+g 188. 926 189. 736 0. 81
+d 78. 733 84. 852 6. 119
+f 189. 023 189. 736 0. 713
+b ( - 64. 712,
+1 925. 134,
+767. 854) g 91. 74 84. 852 6. 888
+c ( - 315. 156,
+1 923. 413,
+766. 743) e 83. 41 84. 852 1. 442
+d (58. 315,
+1 942. 398,
+642. 470)
+e ( - 187. 577,
+1 948. 158,
+643. 946)
+f (192. 068,
+1 959. 378,
+519. 869)
+g ( - 63. 460,
+1 952. 208,
+517. 565)
+h ( - 307. 137,
+1 951. 920,
+517. 087)
+(12)
+联合标定误差分析
+Table 6
+The three-dimensional coordinates of the corner
+241. 152 3
+为验证以上联合标定结果的准确性,利用第 2 组实
+验进行测量验证。实验步骤和方法同标定实验 1,双目
+相机坐标系下角点三维坐标
+points in the camera coordinate system
+第 38 卷
+2) 平移向量( 单位:mm)
+3) 联合标定
+Table 4
+报
+(11)
+由表 3 可 知, 3D 激 光 测 量 系 统 测 量 误 差 最 大 为
+6. 80 mm,标准差为 4. 32 mm。
+表 4
+学
+
+ 0. 049 824
+参数值
+Laser 型号
+表
+7
+8
+g 96. 019 84. 852 11. 167
+h 197. 057 189. 736 7. 321
+e 75. 368 84. 852 9. 484
+g 193. 355 189. 736 3. 619
+h 97. 042 84. 852 12. 19第 10 期
+董方新 等:立体视觉和三维激光系统的联合标定方法
+2595
+为了直观展示表 6 中各角点与中心点之间的测量距 表明了本文方法可准确有效地获取双传感器系统的相互
+离与理论距离之间的误差,联合测量的误差绝对值柱状
+图如图 9 所示。 位姿参数,联合标定引入的测量误差很小,可为移动机器
+人的即时定位与地图构建工作提供可靠的技术基础。
+参考文献
+[1 ] 周美丽,延小进,白宗文. 智能车路径信息图像采集控
+制系统 的 设 计[J] . 国 外 电 子 测 量 技 术,2015 ( 8 ) :
+87-89.
+ZHOU M L,YAN X J,BAI Z W. Control system design
+of the image acquisition to the intelligent vehicle path
+information [J ] .
+Foreign Electronic Measurement
+Technology, 2015(8) :87-89.
+图 9
+Fig. 9
+联合标定系统测量误差
+[2 ] SUN T, XING F, YOU Z.
+Research on dynamic
+performance of star tracker [ J] . Instrumentation,2015,
+The measurement error of the
+1(2) : 17-26.
+joint calibration system
+[3 ] 贺晶晶,姜平,冯晓荣. 基于 UWB 的无人运输车的导
+由表 6 和图 9 可知,双传感器在 2 m 处的最大测量
+误差为 12. 974 mm,标准差为 4. 399 mm,联合测量误差
+来源于单传感器的测量误差以及联合标定误差。联合测
+量的误差分析如表 7 所示。
+表 7
+Table 7
+The analysis of the system measurement error
+分系统
+系统参数
+30(11) :1743-1749.
+HE J J,JIANG P,FENG X R. Research on navigation
+and positioning algorithm for unmanned vehicle based on
+UWB [J] . Journal of Electronic Measurement and
+系统测量误差分析( 测距 2 m)
+( measurement distance is 2 m)
+航定位算法 研 究[J] . 电 子 测 量 与 仪 器 学 报,2016,
+( mm)
+分系统 联合
+Instrumentation, 2016, 30 (11) :1743-1749.
+[4 ] 吴成中,王耀南,冯明涛,等. 基于神经网络的医药微
+弱异物视觉检测机器人[J] . 电子测量与仪器学报,
+2015,
+29(12) :1746-1756.
+视觉系统 激光系统 累计 测量系统 最大测量误差 4. 66 6. 80 11. 46 12. 974 network based pharmaceutical insoluble foreign matter
+标准差 1. 36 4. 32 5. 68 4. 399 inspection robot [ J] . Journal of Electronic Measurement
+WU CH ZH,WANG Y N,FENG M T,et al. Neural
+and Instrumentation, 2015,
+29(12) :1746-1756. .
+由 3. 3 节可知,在 2 m 测量距离处,视觉系统最大测
+量误差为 4. 66 mm,激光系统最大测量误差为 6. 80 mm,
+分系统累计误差为 11. 46 mm。而联合测量的最大测量
+误差为 12. 974 mm,可估计由联合标定引入的误差最大
+值约为 1. 53 mm;视觉系统测量标准差为 1. 36 mm,激光
+扫描系统测量标准差为 4. 32 mm,而联合测量标准差仅
+为 4. 399 mm,可见联合标定引入的误差标准差相对单系
+统误差几乎可以忽略。由以上误差分析可知,本文提出
+的联合标定方法具有较高的准确性。
+4
+结
+论
+本文提出一种立体视觉与 3D 激光系统联合标定的
+方法。根据深度信息提取镂空圆孔中心点作为 3D 激光
+[5 ] 高申勇,许方镇,郭鸿杰. 基于弹簧模型的移动机器人
+路径 规 划 研 究[J] . 仪 器 仪 表 学 报,2016,37 ( 4 ) :
+796-803.
+GAO SH Y,XU F ZH,GUO H J. Research on mobile
+robots ' path planning based on a spring model [J] .
+Chinese Journal of Scientific Instrument,2016,37 (4) :
+796-803.
+[6 ] 陈辉,马世伟,NUECHTER A ,等. 基于激光扫描和
+SFM 的非同步点云三维重构方法[ J] . 仪器仪表学报,
+2016, 17(5) :1148-1157.
+CHEN H,MA SH W,NUECHTER A , et al. Non-
+synchronous point cloud algorithm for 3D reconstruction
+based on laser scanning and SFM [J] . Chinese Journal
+of Scientific Instrument, 2016, 17(5) :1148-1157.
+[7 ] 李琳,张旭,屠大维. 二维和三维视觉传感集成系统联
+测量系统的特征点;使用与圆孔结合的棋盘标定板实现 合标 定 方 法 [J] . 仪 器 仪 表 学 报, 2012, 33 ( 11 ) :
+双目视觉系统对棋盘角点的特征提取。利用两者特征点 2473-2479.
+距离约束关系建立最优值问题,使用全局优化求解两传 LI L,ZHANG X,TU D W. Joint calibration of 2D and
+感系统坐标系的位姿参数,实现联合标定。 3D vision integrated sensor system [ J] . Chinese Journal
+通过搭建平台,利用上述方法进行实验。实验结果
+of Scientific Instrument, 2012, 33(11) :2473-2479.仪
+2596
+器
+仪
+表
+学
+报
+第 38 卷
+[8 ] 项志宇,郑路. 摄像机与 3D 激光雷达联合标定的新方 GAO R X,ZHU X F. Based on the ORB algorithm of
+法[J] . 浙 江 大 学 学 报: 工 学 版, 2009,43 ( 8 ) : binocular vision positioning [ J] . Electronic Measurement
+1401-1405. Technology, 2017, 40 (4) :142-145.
+XIANG ZH Y,ZHENG L. Novel joint calibration method
+of camera and 3D laser range finder [J] . Journal of
+[ 15] 沈彤,刘文波,王京. 基于双目立体视觉的目标测距系
+2015,
+38(4) :52-54.
+统[ J] . 电子测量技术,
+Zhejiang University: Engineering Science, 2009, 43 (8) : SHEN T,LIU W B,WANG J. Distance measurement
+1401-1405. system based on binocular stereo vision[J] . Electronic
+[9 ] ZHANG Q, PLESS R. Extrinsic calibration of a camera and
+laser range finder ( improves camera calibration) [C] .
+Measurement Technology, 2015,
+38(4) :52-54.
+[ 16] ZHANG Z.
+A flexible new technique for camera
+IEEE / RSJ International Conference on Intelligent Robots calibration[J] . IEEE Transactions on Pattern Analysis
+and Systems, 2004: 2301-2306. and Machine Intelligence, 2000,
+22(11) :1330 -1334.
+[ 10] 温景阳,杨建,付梦印,等. 一种摄像机和 3 维激光雷
+达外部参数最大似然估计的标定算法[J] . 机器人,
+2011, 33(1) :102-106.
+[ 17] FLOUDAS C C A,PARDALOS P M. Encyclopedia of
+optimization [ M] . Newyork: Springer, 2009.
+作者简介
+WEN J Y,YANG J,FU M Y,et al. A calibration 2014 年于安徽理工大学获得学
+董方新,
+algorithm for maximum likelihood estimation of extrinsic 士学位,现为上海大学硕士研究生,主要研
+parameters of a camera and a 3D laser radar[ J] . Robot, 究方向为机器视觉、 移动机器人视觉导航。
+2011,
+33(1) : 102-106. E-mail:frank_dfx@ outlook. com
+[ 11] 魏克全,时兆峰,李晗,等. 单目摄像机与三维激光雷
+Dong Fangxin received his B. Sc. degree
+2015,
+2(6) :
+达联合标定的研究[ J] . 导航定位与授时,
+from Anhui University of Science & Technology
+69-74. in 2014. Now he is a master student in Shanghai University. His
+WEI K Q,SHI ZH F,LI H,et al. Research on the joint main research interests include machine vision and mobile robot
+calibration of monocular camera and 3D lidar [J] . visual navigations.
+Navigation Positioning & Timing, 2015, 2(6) :69-74.
+[ 12] LE Q V, NG A Y.
+sensors [ C] .
+解杨敏( 通讯作者) ,分别在 2005 年和
+Joint calibration of multiple 2008 年于北京航空航天大学获得学士学位
+IEEE / RSJ International Conference on 和硕士学位, 2013 年于伊利诺伊大学香槟
+Intelligent Robots and Systems, 2009:3651-3658.
+[ 13] 王凤艳,黄润秋,陈剑平,等. 基于计算机视觉和测
+量平差 理 论 的 相 机 标 定[J] . 吉 林 大 学 学 报 ( 工) ,
+2017, 47(3) :944-951.
+分校获得博士学位,现为上海大学讲师,主
+要研究方向为移动机器人技术、 控制理论及
+其应用。
+E-mail:Xieym@ shu. edu. cn
+WANG F Y,HUANG R Q,CHEN J P,et al. Camera Xie Yangmin ( Corresponding author) received her B. Sc. and
+calibration based on computer vision and surveying M. Sc. degrees both from Beihang University in 2005 and 2008,
+adjustment fundamentals[J] . Journal of Jilin University respectively,received her Ph. D. degree from University of
+Engineering and Technology Edition,2017,47 ( 3 ) : Illinois at Urbana-Champaign in 2013. Now she is a lecturer in
+944-951. Shanghai University. Her main research interests include mobile
+[ 14] 高如新,朱烜甫. 基于 ORB 算法的双目视觉定位[ J] .
+40(4) :142-145.
+电子测量技术, 2017,
+robotics,and control theory and its application.

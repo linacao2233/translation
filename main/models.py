@@ -4,6 +4,7 @@ from django.db import models
 
 class Chapter(models.Model):
 	order = models.PositiveSmallIntegerField()
+	article = models.CharField(max_length=100, default='original')
 
 	def __str__(self):
 		return str(self.order)
@@ -18,7 +19,7 @@ class Sentence(models.Model):
 	order = models.FloatField(default=1.0)
 
 	def __str__(self):
-		return str(self.chapter.order)+' '+str(self.order)
+		return str(self.pk)+self.Chinese[:10]
 
 
 
